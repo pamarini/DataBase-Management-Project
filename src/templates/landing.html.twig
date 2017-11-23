@@ -1,0 +1,14 @@
+{% extends "template.html.twig" %}
+
+{% block title %} Main Page {% endblock %}
+
+{% block body %}
+    <table class="table table-bordered">
+        {% for label, text in info %}
+            <tr>
+                <td><strong>{{ label }}</strong></td>
+                <td>{{ text|raw }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
