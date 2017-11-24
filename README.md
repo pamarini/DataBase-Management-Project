@@ -1,7 +1,7 @@
 CS3413 Group Project - Group One
 --------------------------------
 
-**Group Members:**	Daniel Kivi, Francis Mullins, Nick Catanzaro, Peter Marenis
+**Group Members:**	Daniel Kivi, Francis Mullins, Nick Catanzaro, Peter Marinis
 
 Required Software
 -----------------
