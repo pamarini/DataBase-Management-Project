@@ -1,7 +1,7 @@
 CS3413 Group Project - Group One
 --------------------------------
 
-**Group Members:**	Daniel Kivi, Francis Mullins, Nick Catanzaro, Peter Maranis
+**Group Members:**	Daniel Kivi, Francis Mullins, Nick Catanzaro, Peter Marenis
 
 Required Software
 -----------------
@@ -21,6 +21,3 @@ Instructions
 - Copy the `.env.example` file to a file named `.env` and enter your database information
 - Enter the src directory `cd src` and run the project with `php -S localhost:8080`
 - The website should now be accessible at [http://localhost:8080]()
-
-
-
