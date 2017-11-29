@@ -119,7 +119,7 @@ CREATE TABLE product_shipment
   product_upc VARCHAR(12)    NOT NULL,
   quantity    INT            NOT NULL,
   unit_price  DECIMAL(15, 2) NOT NULL,
-  FOREIGN KEY (shipment_id) REFERENCES vendors (id)
+  FOREIGN KEY (shipment_id) REFERENCES shipments (id)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
   FOREIGN KEY (product_upc) REFERENCES products (upc)
