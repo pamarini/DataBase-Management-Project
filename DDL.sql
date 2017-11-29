@@ -2,6 +2,14 @@ CREATE DATABASE IF NOT EXISTS cs3413_final;
 
 USE cs3413_final;
 
+CREATE TABLE users
+(
+  id       INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  email    VARCHAR(50)  NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  role     VARCHAR(50)  NOT NULL
+);
+
 CREATE TABLE addresses
 (
   id         INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -130,10 +138,12 @@ CREATE TABLE product_shipment
 
 CREATE TABLE customers
 (
-  id         INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  email      VARCHAR(50) NOT NULL,
-  password   VARCHAR(50) NOT NULL,
-  address_id INT         NOT NULL,
+  id         INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  user_id    INT NOT NULL,
+  address_id INT NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users (id)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
   FOREIGN KEY (address_id) REFERENCES addresses (id)
     ON DELETE RESTRICT
     ON UPDATE CASCADE

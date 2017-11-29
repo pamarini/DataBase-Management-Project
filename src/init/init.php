@@ -4,7 +4,7 @@ $settings = require 'config.php'; // Global settings
 $app = new \Slim\App(['settings' => $settings]); // Initialize Framework
 $container = $app->getContainer(); // Get the dependency injection controller
 $container['db'] = new Helper\Database($settings['db']); // Inject database as a dependency
-// Inject Twig Templating engine
+$container['session'] = new \SlimSession\Helper;
 $container['view'] = function ($container) {
     $view = new \Slim\Views\Twig('templates', [
         'cache' => false
@@ -16,5 +16,20 @@ $container['view'] = function ($container) {
     return $view;
 };
 
-// All we need from all this is the Slim container
+$app->add(function ($request, $response, $next) use ($container) {
+    $container['auth'] = new \Helper\Auth($container['db'], new \SlimSession\Helper);
+
+    if($request->getRequestTarget() === '/login' || $container['auth']->authenticated()) {
+        return $next($request, $response);
+    } else {
+        return $response->withRedirect('/login');
+    }
+});
+
+$app->add(new \Slim\Middleware\Session([
+    'name' => 'dbsg_session',
+    'autorefresh' => true,
+    'lifetime' => '1 hour'
+]));
+
 return $app;
