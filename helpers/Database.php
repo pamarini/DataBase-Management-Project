@@ -5,6 +5,7 @@ use PDO;
 class Database
 {
     protected $connection;
+    protected $lastId;
 
     public function __construct(Array $connectionSettings)
     {
@@ -30,7 +31,7 @@ class Database
         if(count($filters) > 0) {
             $joinedArray = [];
             foreach($filters as $key => $value) {
-                $joinedArray = ["`$key` = '$value'"];
+                $joinedArray[] = "`$key` = '$value'";
             }
             $queryString .= ' WHERE ' . implode(' AND ', $joinedArray);
         }
@@ -38,18 +39,20 @@ class Database
         return $this->connection->query($queryString)->fetchAll();
     }
 
-    public function store(String $table, Array $values): bool
+    public function store(String $table, Array $values)
     {
         $keys = array_keys($values);
         $inputs = implode(', ', $keys);
         $questionsMarks = implode(', ', array_fill(0, count($keys), '?'));
 
-        return $this->executeQuery(
+        $this->executeQuery(
             "INSERT INTO $table " .
             "($inputs) ".
             "VALUES ($questionsMarks)",
             array_values($values)
         );
+
+        return $this->lastId;
     }
 
     public function update(String $table, String $updateKey, String $updateColumn = 'ID', Array $values): bool
@@ -77,10 +80,17 @@ class Database
         );
     }
 
+    public function custom(String $queryString)
+    {
+        return $this->connection->query($queryString)->fetchAll();
+    }
+
     private function executeQuery(String $query, Array $params)
     {
         $prepared = $this->connection->prepare($query);
-        return $prepared->execute($params);
+        $result =  $prepared->execute($params);
+        $this->lastId = $this->connection->lastInsertId();
+        return $result;
     }
 
     /**

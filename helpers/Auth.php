@@ -16,11 +16,11 @@ class Auth
         $this->user = null;
         $this->isAuthenticated = false;
 
-        if ($session->exists('user_id')) {
+        if ($session->get('user_id')) {
             $dbUser = $databaseConnection->select('users', ['id', 'email', 'role'], ['id' => $session->get('user_id')]);
             if (\count($dbUser) > 0) {
                 $dbUser = $dbUser[0];
-                $this->user = new User($dbUser['id'], $dbUser['email'], $dbUser['role']);
+                $this->user = new User($dbUser['id'], $dbUser['email'], $dbUser['role'], $session);
                 $this->isAuthenticated = true;
             }
         }

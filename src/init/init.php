@@ -16,8 +16,14 @@ $container['view'] = function ($container) {
     return $view;
 };
 
-$app->add(function ($request, $response, $next) use ($container) {
+$app->add(function ($request, $response, $next) use ($container, $app) {
     $container['auth'] = new \Helper\Auth($container['db'], new \SlimSession\Helper);
+    $container['view']->getEnvironment()->addGlobal('user', $container['auth']->getUser());
+    $container['view']->getEnvironment()->addGlobal('auth', $container['auth']);
+    if($container['auth']->getUser())
+    {
+        $container['view']->getEnvironment()->addGlobal('cart', $container['auth']->getUser()->getCart(new \SlimSession\Helper));
+    }
 
     if($request->getRequestTarget() === '/login' || $container['auth']->authenticated()) {
         return $next($request, $response);
@@ -31,5 +37,6 @@ $app->add(new \Slim\Middleware\Session([
     'autorefresh' => true,
     'lifetime' => '1 hour'
 ]));
+
 
 return $app;

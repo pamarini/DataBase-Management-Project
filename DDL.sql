@@ -108,11 +108,12 @@ CREATE TABLE stock
 
 CREATE TABLE shipments
 (
-  id           INT      NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  vendor_id    INT      NOT NULL,
-  store_id     INT      NOT NULL,
-  sent_date    DATETIME NOT NULL,
-  recieve_date DATETIME NOT NULL,
+  id           INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  vendor_id    INT         NOT NULL,
+  store_id     INT         NOT NULL,
+  status       VARCHAR(50) NOT NULL,
+  sent_date    DATETIME    NOT NULL,
+  recieve_date DATETIME    NOT NULL,
   FOREIGN KEY (vendor_id) REFERENCES vendors (id)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,
@@ -153,7 +154,11 @@ CREATE TABLE orders
 (
   id          INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   customer_id INT NOT NULL,
+  store_id    INT NOT NULL,
   FOREIGN KEY (customer_id) REFERENCES customers (id)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  FOREIGN KEY (store_id) REFERENCES stores (id)
     ON DELETE RESTRICT
     ON UPDATE CASCADE
 );
@@ -172,8 +177,6 @@ CREATE TABLE order_product
     ON UPDATE CASCADE,
   PRIMARY KEY (order_id, product_upc)
 )
-
-
 
 
 

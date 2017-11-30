@@ -1,0 +1,42 @@
+{% extends "template.html.twig" %}
+
+{% block title %} Products with less than 5 in stock for {{ store.name }} {% endblock %}
+
+{% block body %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Vendor</th>
+            <th>Product Name</th>
+            <th></th>
+            <th>Brand</th>
+            <th>UPC</th>
+            <th>Quantity Left</th>
+            <th>MSRP</th>
+            <th>Order More</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <td>{{ product.vendor_name }}</td>
+                <td>{{ product.product_name }}</td>
+                <td>{{ product.size }}</td>
+                <td>{{ product.brand_name }}</td>
+                <td>{{ product.product_upc }}</td>
+                <td>{{ product.quantity }}</td>
+                <td>{{ product.msrp }}</td>
+                <td>
+                    <form action="/request" method="post">
+                        <input type="hidden" name="vendor" value="{{ product.vendor_id }}"/>
+                        <input type="hidden" name="product" value="{{ product.product_upc }}"/>
+                        <input type="hidden" name="store" value="{{ store.id }}"/>
+                        <input type="number" name="amount" value="100" style="width:50px;" class="pull-left"/>
+                        <button type="submit" class="btn btn-primary pull-right">Order More</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

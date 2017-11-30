@@ -1,0 +1,32 @@
+{% extends "template.html.twig" %}
+
+{% block title %} Past Orders {% endblock %}
+
+{% block body %}
+    {% for id, order in orders %}
+        <strong>Order Id: {{ id }}</strong>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Brand</th>
+                <th>Name</th>
+                <th></th>
+                <th>MSRP</th>
+                <th>Quantity</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for product in order %}
+                <tr>
+                    <td>{{ product.brand_name }}</td>
+                    <td>{{ product.product_name }}</td>
+                    <td>{{  product.size }}</td>
+                    <td>{{ product.msrp }}</td>
+                    <td>{{ product.quantity }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <hr>
+    {% endfor %}
+{% endblock %}

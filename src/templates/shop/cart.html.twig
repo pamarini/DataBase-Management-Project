@@ -1,0 +1,37 @@
+{% extends "template.html.twig" %}
+
+{% block title %} Your Cart {% endblock %}
+
+{% block body %}
+    {% for store in carts %}
+    <div>
+        <strong>Order For: {{ store|first.storeData.name }}</strong>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Brand</th>
+                    <th>Name</th>
+                    <th></th>
+                    <th>MSRP</th>
+                    <th>Quantity</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for product in store %}
+                <tr>
+                    <td>{{ product.productData.name }}</td>
+                    <td>{{ product.productData.product_name }}</td>
+                    <td>{{ product.productData.size }}</td>
+                    <td>{{ product.productData.msrp }}</td>
+                    <td>{{ product.quantity }}</td>
+                    <td><a href="/remove/{{ product.productId }}/{{ product.storeId }}" class="btn btn-primary">Remove From Cart</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <a href="/confirm/{{ store|first.storeId }}" class="btn btn-primary">Place Order</a>
+    </div>
+    <hr>
+    {% endfor %}
+{% endblock %}

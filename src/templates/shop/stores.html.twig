@@ -1,0 +1,9 @@
+{% extends "template.html.twig" %}
+
+{% block title %} All Stores {% endblock %}
+
+{% block body %}
+    {% for store in stores %}
+        <a href="/products/{{ store.id }}" class="btn btn-primary">Shop {{ store.name }}</a>
+    {% endfor %}
+{% endblock %}

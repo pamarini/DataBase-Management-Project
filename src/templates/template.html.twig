@@ -20,9 +20,23 @@
         <hr>
         <div class="row">
             <div class="col-md-3">
+                {% if auth.authenticated() %}
+                    Welcome, {{ user.email }} <br>
+                {% endif %}
                 <div class="list-group">
                     <a href="/" class="list-group-item list-group-item-action">Home</a>
-                    <a href="/logout" class="list-group-item list-group-item-action">Logout</a>
+                    {% if user.role == 'user' %}
+                        <a href="/stores" class="list-group-item list-group-item-action">Shop Items</a>
+                        <a href="/cart" class="list-group-item list-group-item-action">Cart ({{ cart.count() }})</a>
+                        <a href="/past" class="list-group-item list-group-item-action">Past Orders</a>
+                    {% elseif user.role == 'manager' %}
+                        <a href="/manage" class="list-group-item list-group-item-action">Manager</a>
+                    {% elseif user.role == 'vendor' %}
+                        <a href="/vendor" class="list-group-item list-group-item-action">Vendor</a>
+                    {% endif %}
+                    {% if auth.authenticated() %}
+                        <a href="/logout" class="list-group-item list-group-item-action">Logout</a>
+                    {% endif %}
                 </div>
             </div>
             <div class="col-md-9">

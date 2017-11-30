@@ -1,0 +1,44 @@
+{% extends "template.html.twig" %}
+
+{% block title %} Store Requests {% endblock %}
+
+{% block body %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Brand</th>
+            <th>Product Name</th>
+            <th>UPC</th>
+            <th>Requesting Store</th>
+            <th>Quantity</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for shipment in shipments %}
+            <tr>
+                <td>{{ shipment.brand_name }}</td>
+                <td>{{ shipment.product_name }}</td>
+                <td>{{ shipment.product_upc }}</td>
+                <td>{{ shipment.store_name }}</td>
+                <td>{{ shipment.quantity }}</td>
+                <td>
+                    <form action="/approve" method="post">
+                        <input type="hidden" name="store" value="{{ shipment.store_id }}"/>
+                        <input type="hidden" name="amount" value="{{ shipment.quantity }}"/>
+                        <input type="hidden" name="product" value="{{ shipment.product_upc }}"/>
+                        <input type="hidden" name="shipment" value="{{ shipment.shipment_id }}"/>
+                        <button type="submit" class="btn btn-primary pull-right">Approve</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="/deny" method="post">
+                        <input type="hidden" name="shipment" value="{{ shipment.shipment_id }}"/>
+                        <button type="submit" class="btn btn-danger pull-right">Deny</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "template.html.twig" %}
+
+{% block title %} All Stores {% endblock %}
+
+{% block body %}
+    {% for store in stores %}
+        <div style="margin-bottom: 5px;">
+            <a href="/inventory/{{ store.id }}" class="btn btn-primary">Manage {{ store.name }}</a>
+        </div>
+    {% endfor %}
+{% endblock %}
